@@ -40,7 +40,6 @@ func ToggleWindowDisplay(w *models.Window, g *gocui.Gui) error {
 			}
 			w.View = nil
 		}
-		// fmt.Fprintln(os.Stdout, VIEW_SWITCH_HISTORY[len(VIEW_SWITCH_HISTORY)-1])
 		return nil
 	})
 	return nil

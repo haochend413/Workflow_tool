@@ -17,7 +17,6 @@ func (gui *Gui) InitKeyBindings() error {
 				if err := gui.g.SetKeybinding(k.ViewName, s.Rune, k.Modifier, k.Handler); err != nil {
 					return err
 				}
-
 			} else {
 				if err := gui.g.SetKeybinding(k.ViewName, s.Key, k.Modifier, k.Handler); err != nil {
 					return err

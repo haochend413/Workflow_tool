@@ -16,8 +16,6 @@ type KeyType struct {
 func Parsor(key string) KeyType {
 	//non-rune cases;
 	switch key {
-	case "ct-e":
-		return KeyType{Key: gocui.KeyCtrlE, Valid: true}
 	case "enter":
 		return KeyType{Key: gocui.KeyEnter, Valid: true}
 	case "ct-x":
@@ -26,6 +24,8 @@ func Parsor(key string) KeyType {
 		return KeyType{Key: gocui.KeyCtrlA, Valid: true}
 	case "ct-c":
 		return KeyType{Key: gocui.KeyCtrlC, Valid: true}
+	case "ct-e":
+		return KeyType{Key: gocui.KeyCtrlE, Valid: true}
 	}
 
 	//rune case: length of string is 1
