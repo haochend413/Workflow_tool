@@ -102,15 +102,19 @@ func CursorLeft(view *gocui.View) error {
 func CursorRight(view *gocui.View) error {
 	//g.Cursor = true should have already been set
 	//move up cursor
-
+	maxX, _ := view.Size()
 	//current position
 	px, py := view.Cursor()
+	if px == maxX-1 {
+		return nil
+	}
 	line, err := view.Line(py)
 	if err != nil || line == "" {
 		return nil // either no such line, or it's empty
 	}
 	runes := []rune(line)
-	if px < len(runes) {
+
+	if px < len(runes)-1 {
 		if err := view.SetCursor(px+1, py); err != nil {
 			return err
 		}
