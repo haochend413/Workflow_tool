@@ -26,6 +26,8 @@ func Parsor(key string) KeyType {
 		return KeyType{Key: gocui.KeyCtrlC, Valid: true}
 	case "ct-e":
 		return KeyType{Key: gocui.KeyCtrlE, Valid: true}
+	case "ct-s":
+		return KeyType{Key: gocui.KeyCtrlS, Valid: true}
 	case "up":
 		return KeyType{Key: gocui.KeyArrowUp, Valid: true}
 	case "down":

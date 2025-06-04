@@ -4,12 +4,8 @@ import (
 	"fmt"
 
 	"github.com/haochend413/mantis/controllers"
-	"github.com/haochend413/mantis/db"
-	"github.com/haochend413/mantis/db/dbstructs"
 	"github.com/jroimartin/gocui"
 )
-
-// var FIRST_INIT_CHECK bool = true
 
 // Define layout for all views;
 func (gui *Gui) layout(g *gocui.Gui) error {
@@ -56,23 +52,20 @@ func (gui *Gui) layout(g *gocui.Gui) error {
 
 		//view-specific logic here
 		if w.Name == "note-history" {
-			nh, e := g.View("note-history")
+			nh := w.View
 			nh.Clear()
-			if e != nil {
-				return e
-			}
-			var history []dbstructs.Note
-			result := db.DBs.NoteDB.Db.Find(&history)
-
 			//display history
-			for _, note := range history {
-				fmt.Fprintln(v, note.Content)
+			for _, note := range DB_Data.NoteDBData {
+				fmt.Fprintln(nh, note.Content)
 			}
-
-			if result.Error != nil {
-				return result.Error
-			}
+			// return nil
 		}
+
+		// if w.Name == "note-detail" {
+		// 	nh, e := g.View("note-detail")
+		// 	nh.Clear()
+		// 	// fmt.Fprint(os.Stdout, "hihi, \n hihi, \n hihi")
+		// }
 
 	}
 

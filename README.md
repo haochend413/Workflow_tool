@@ -10,3 +10,5 @@ Techs:
 Features:
 - Terminal-based note taking and storing
 - Cmds fuzzy search
+
+`go-callvis -debug github.com/haochend413/mantis/main`

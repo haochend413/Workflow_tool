@@ -1,20 +1,11 @@
 package gui
 
 import (
-	"github.com/haochend413/mantis/controllers"
-	"github.com/haochend413/mantis/db"
+	"github.com/haochend413/mantis/models"
 )
 
-// send note to db
-func (gui *Gui) SendNote(content string) error {
+// refresh the layout when db has been changed
+// func (gui *Gui) FetchNewestData() error {
 
-	s := FetchContent(gui.windows[0], gui.G())
-
-	if err := db.DBs.NoteDB.AddNote(s); err != nil {
-		return err
-	}
-
-	gui.g.CurrentView().Clear()
-	controllers.CursorOn(gui.g, gui.g.CurrentView())
-	return nil
-}
+// this stored all the temporary db data that will be used to store & update DB when the app init / close or when a specific function requires database operations;
+var DB_Data *models.DB_Data = &models.DB_Data{}

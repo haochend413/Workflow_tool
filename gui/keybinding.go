@@ -34,7 +34,7 @@ func CreateAllKeybinders(gui *Gui) []*models.KeyBinder {
 			ViewName: "",
 			Key:      "ct-c",
 			Modifier: gocui.ModNone,
-			Handler:  HandleAppQuit,
+			Handler:  gui.HandleAppQuit,
 		},
 		{
 			ViewName: "",
@@ -53,6 +53,12 @@ func CreateAllKeybinders(gui *Gui) []*models.KeyBinder {
 			Key:      "ct-x",
 			Modifier: gocui.ModNone,
 			Handler:  gui.HandleCmdDisplay,
+		},
+		{
+			ViewName: "",
+			Key:      "ct-s",
+			Modifier: gocui.ModNone,
+			Handler:  gui.HandleDataUpdate,
 		},
 		{
 			ViewName: "note",

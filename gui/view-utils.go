@@ -3,6 +3,7 @@ package gui
 import (
 	"strings"
 
+	"github.com/haochend413/mantis/controllers"
 	"github.com/haochend413/mantis/models"
 	"github.com/jroimartin/gocui"
 )
@@ -51,3 +52,29 @@ func ToggleWindowDisplay(w *models.Window, g *gocui.Gui) error {
 func FetchContent(w *models.Window, g *gocui.Gui) string {
 	return strings.TrimSpace(w.View.Buffer())
 }
+
+// store note to DB_Data
+func (gui *Gui) SendNote() error {
+	content := FetchContent(gui.windows[0], gui.G())
+	if content == "" {
+		return nil
+	}
+	note := &models.Note{Content: content}
+
+	DB_Data.NoteDBData = append(DB_Data.NoteDBData, note)
+
+	gui.g.CurrentView().Clear()
+	controllers.CursorOn(gui.g, gui.g.CurrentView())
+	return nil
+}
+
+// func (nd *NoteDB) AddNote(content string) error {
+// 	//init note struct
+// 	if content == "" {
+// 		return nil
+// 	}
+// 	note := &models.Note{Content: content}
+// 	//pass the string to database;
+// 	result := nd.Db.Create(note)
+// 	return result.Error
+// }

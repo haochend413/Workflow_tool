@@ -3,6 +3,7 @@ package gui
 import (
 	"log"
 
+	dbcontroller "github.com/haochend413/mantis/controllers/db_controller"
 	"github.com/haochend413/mantis/models"
 	"github.com/jroimartin/gocui"
 )
@@ -12,6 +13,7 @@ type Gui struct {
 	g                *gocui.Gui
 	windows          []*models.Window
 	first_init_check bool
+	DBManager        *dbcontroller.DBManager
 }
 
 // need to use a map to hande quick window search
@@ -27,11 +29,19 @@ func (gui *Gui) GuiInit() {
 	}
 	gui.g = g
 	defer gui.g.Close()
+
 	//
 	//set configs for layout functions
 	gui.first_init_check = true
 	// Set layout manager function (called every frame to layout views) (set windows)
 	gui.g.SetManagerFunc(gui.layout)
+	//set up db manager
+	gui.DBManager = &dbcontroller.DBManager{}
+	gui.DBManager.InitManager()
+	//fetch data into DB_Data stored;
+	DB_Data = gui.DBManager.FetchAll()
+	//defer close;
+	// defer gui.DBManager.CloseManager()
 
 	//init keybindings
 	if err := gui.InitKeyBindings(); err != nil {
@@ -41,4 +51,10 @@ func (gui *Gui) GuiInit() {
 	if err := gui.g.MainLoop(); err != nil && err != gocui.ErrQuit {
 		log.Panicln(err)
 	}
+}
+
+func (gui *Gui) GuiClose() {
+	//send up data to database;
+	// fmt.Fprintln(os.Stdout, "sss")
+	gui.DBManager.RefreshAll(DB_Data)
 }

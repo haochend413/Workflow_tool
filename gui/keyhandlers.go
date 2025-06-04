@@ -5,9 +5,15 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
-func HandleAppQuit(g *gocui.Gui, v *gocui.View) error {
-	return controllers.QuitApp()
+func (gui *Gui) HandleAppQuit(g *gocui.Gui, v *gocui.View) error {
+	return gui.AppQuit()
 
+}
+
+func (gui *Gui) HandleDataUpdate(g *gocui.Gui, v *gocui.View) error {
+	// fmt.Fprintln(v, "test")
+	return gui.DBManager.RefreshAll(DB_Data)
+	// return nil
 }
 
 // View setup;
@@ -53,5 +59,5 @@ Note view
 // View setup;
 func (gui *Gui) HandleSendNote(g *gocui.Gui, v *gocui.View) error {
 	// fmt.Fprint(os.Stdout, gui.windows[0].Name)
-	return gui.SendNote(FetchContent(gui.windows[0], gui.g))
+	return gui.SendNote()
 }

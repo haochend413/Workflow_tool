@@ -3,7 +3,7 @@ package db
 import (
 	"log"
 
-	"github.com/haochend413/mantis/db/dbstructs"
+	"github.com/haochend413/mantis/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -37,6 +37,6 @@ func DBInit(name string) *gorm.DB {
 		log.Panicln(err)
 	}
 	//assign
-	n.AutoMigrate(&dbstructs.Note{})
+	n.AutoMigrate(&models.Note{})
 	return n
 }

@@ -4,20 +4,17 @@ import (
 	"github.com/haochend413/mantis/db/notedb"
 )
 
-var DBs *DataBases
+// var DBs *DataBases
 
 type DataBases struct {
 	NoteDB *notedb.NoteDB
 }
 
-// var _ db_models.DBController = (*NoteDB)(nil)
-
-func InitAll() {
-	DBs = &DataBases{}
+func (DBs *DataBases) InitAll() {
 	DBs.NoteDB = &notedb.NoteDB{}
 	DBs.NoteDB.Db = DBInit("notes")
 }
 
-func CloseAll() {
+func (DBs *DataBases) CloseAll() {
 	_ = DBs.NoteDB.Close()
 }
