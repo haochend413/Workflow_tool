@@ -54,7 +54,5 @@ func (gui *Gui) GuiInit() {
 }
 
 func (gui *Gui) GuiClose() {
-	//send up data to database;
-	// fmt.Fprintln(os.Stdout, "sss")
 	gui.DBManager.RefreshAll(DB_Data)
 }

@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/haochend413/mantis/controllers"
@@ -68,13 +69,20 @@ func (gui *Gui) SendNote() error {
 	return nil
 }
 
-// func (nd *NoteDB) AddNote(content string) error {
-// 	//init note struct
-// 	if content == "" {
-// 		return nil
-// 	}
-// 	note := &models.Note{Content: content}
-// 	//pass the string to database;
-// 	result := nd.Db.Create(note)
-// 	return result.Error
-// }
+// Note Detail Index
+var Current_Note_Index = 0
+
+// Display Note Content Detail
+func UpdateSelectedNote(index int, g *gocui.Gui) error {
+	g.Update(func(g *gocui.Gui) error {
+		v, err := g.View("note-detail")
+		if err != nil {
+			return nil
+		}
+		v.Clear()
+		v.Wrap = true
+		fmt.Fprint(v, DB_Data.NoteDBData[index].Content)
+		return nil
+	})
+	return nil
+}

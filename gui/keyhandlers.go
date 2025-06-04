@@ -1,6 +1,9 @@
 package gui
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/haochend413/mantis/controllers"
 	"github.com/jroimartin/gocui"
 )
@@ -39,9 +42,17 @@ func (gui *Gui) HandleNoteCursorMove(direction string) func(*gocui.Gui, *gocui.V
 	return func(g *gocui.Gui, v *gocui.View) error {
 		switch direction {
 		case "up":
-			return controllers.CursorUp(gui.windows[1].View)
+			err := controllers.CursorUp(gui.windows[1].View)
+			_, Current_Note_Index = gui.windows[1].View.Cursor()
+			UpdateSelectedNote(Current_Note_Index, gui.g)
+			fmt.Fprintln(os.Stdout, Current_Note_Index)
+			return err
 		case "down":
-			return controllers.CursorDown(gui.windows[1].View)
+			err := controllers.CursorDown(gui.windows[1].View)
+			_, Current_Note_Index = gui.windows[1].View.Cursor()
+			UpdateSelectedNote(Current_Note_Index, gui.g)
+			fmt.Fprintln(os.Stdout, Current_Note_Index)
+			return err
 		case "left":
 			return controllers.CursorLeft(gui.windows[1].View)
 		case "right":

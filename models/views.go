@@ -17,4 +17,5 @@ type Window struct {
 	Editable bool
 	Scroll   bool
 	Cursor   bool
+	// Wrap     bool
 }
