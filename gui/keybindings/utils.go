@@ -36,6 +36,10 @@ func Parsor(key string) KeyType {
 		return KeyType{Key: gocui.KeyArrowLeft, Valid: true}
 	case "right":
 		return KeyType{Key: gocui.KeyArrowRight, Valid: true}
+	case "ct-space":
+		return KeyType{Key: gocui.KeyCtrlSpace, Valid: true}
+	case "tab":
+		return KeyType{Key: gocui.KeyTab, Valid: true}
 	}
 
 	//rune case: length of string is 1

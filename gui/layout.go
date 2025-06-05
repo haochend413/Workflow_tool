@@ -2,6 +2,7 @@ package gui
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/haochend413/mantis/controllers"
 	"github.com/jroimartin/gocui"
@@ -22,6 +23,7 @@ func (gui *Gui) layout(g *gocui.Gui) error {
 			// Don't show views that are off
 			continue
 		}
+
 		//here it set up view prepare;
 		// Only initialize if the view was just created
 
@@ -30,6 +32,7 @@ func (gui *Gui) layout(g *gocui.Gui) error {
 		// if !w.OnDisplay {
 		// 	g.DeleteView(w.Name)
 		// }
+		// v.BgColor = gocui.ColorGreen
 		if err != nil && err != gocui.ErrUnknownView {
 			return err
 		}
@@ -55,10 +58,34 @@ func (gui *Gui) layout(g *gocui.Gui) error {
 			nh := w.View
 			nh.Clear()
 			//display history
+			nh.Highlight = true
+			v.SelBgColor = gocui.ColorBlue
+			v.SelFgColor = gocui.ColorWhite
 			for _, note := range DB_Data.NoteDBData {
-				fmt.Fprint(nh, note.CreatedAt.Format("2006-01-02 15:04:05.00000"))
+				fmt.Fprint(nh, note.CreatedAt.Format("06-01-02 15:04"))
 				fmt.Fprint(nh, "  ")
-				fmt.Fprintln(nh, note.Content)
+				firstLine := strings.SplitN(note.Content, "\n", 2)[0]
+				var d bool = false
+				if len(strings.SplitN(note.Content, "\n", 2)) > 1 {
+					d = true
+				}
+
+				if d {
+					if len(firstLine) <= 10 {
+						fmt.Fprint(nh, firstLine)
+						fmt.Fprintln(nh, "...")
+					} else {
+						fmt.Fprint(nh, firstLine[:10])
+						fmt.Fprintln(nh, "...")
+					}
+				} else {
+					if len(firstLine) <= 10 {
+						fmt.Fprintln(nh, firstLine)
+					} else {
+						fmt.Fprint(nh, firstLine[:10])
+						fmt.Fprintln(nh, "...")
+					}
+				}
 			}
 			// return nil
 		}

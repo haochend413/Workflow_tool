@@ -1,9 +1,6 @@
 package gui
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/haochend413/mantis/controllers"
 	"github.com/jroimartin/gocui"
 )
@@ -37,6 +34,21 @@ func (gui *Gui) HandleCmdDisplay(g *gocui.Gui, v *gocui.View) error {
 	return ToggleWindowDisplay(gui.windows[2], gui.g)
 }
 
+// View switch
+// Should not go to read-only views
+func (gui *Gui) HandleViewLoop(g *gocui.Gui, v *gocui.View) error {
+	switch v.Name() {
+	case "note":
+		g.SetCurrentView("note-history")
+		return nil
+	case "note-history":
+		g.SetCurrentView("note")
+		return nil
+	default:
+		return nil
+	}
+}
+
 // Move Cursor;
 func (gui *Gui) HandleNoteCursorMove(direction string) func(*gocui.Gui, *gocui.View) error {
 	return func(g *gocui.Gui, v *gocui.View) error {
@@ -45,13 +57,13 @@ func (gui *Gui) HandleNoteCursorMove(direction string) func(*gocui.Gui, *gocui.V
 			err := controllers.CursorUp(gui.windows[1].View)
 			_, Current_Note_Index = gui.windows[1].View.Cursor()
 			UpdateSelectedNote(Current_Note_Index, gui.g)
-			fmt.Fprintln(os.Stdout, Current_Note_Index)
+			// fmt.Fprintln(os.Stdout, Current_Note_Index)
 			return err
 		case "down":
 			err := controllers.CursorDown(gui.windows[1].View)
 			_, Current_Note_Index = gui.windows[1].View.Cursor()
 			UpdateSelectedNote(Current_Note_Index, gui.g)
-			fmt.Fprintln(os.Stdout, Current_Note_Index)
+			// fmt.Fprintln(os.Stdout, Current_Note_Index)
 			return err
 		case "left":
 			return controllers.CursorLeft(gui.windows[1].View)
@@ -67,8 +79,25 @@ func (gui *Gui) HandleNoteCursorMove(direction string) func(*gocui.Gui, *gocui.V
 Note view
 */
 
-// View setup;
+// Send Note.
+// Update history & detail demo.
 func (gui *Gui) HandleSendNote(g *gocui.Gui, v *gocui.View) error {
 	// fmt.Fprint(os.Stdout, gui.windows[0].Name)
+	//update the note-history view and the note-detail view
+	//current position
+	px, _ := gui.windows[1].View.Cursor()
+	//here, py should not be lower than the last line; -2 : trimmed empty line
+
+	if err := gui.windows[1].View.SetCursor(px, len(gui.windows[1].View.BufferLines())-1); err != nil {
+		return err
+	}
+	_, Current_Note_Index = gui.windows[1].View.Cursor()
+	UpdateSelectedNote(Current_Note_Index, gui.g)
 	return gui.SendNote()
+}
+
+func (gui *Gui) HandleSwitchLine(g *gocui.Gui, v *gocui.View) error {
+	// fmt.Fprint(os.Stdout, gui.windows[0].Name)
+	v.EditNewLine()
+	return nil
 }

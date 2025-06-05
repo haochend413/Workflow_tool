@@ -47,6 +47,11 @@ func CursorOn(g *gocui.Gui, view *gocui.View) error {
 	return view.SetCursor(px, py)
 }
 
+func CursorOff(g *gocui.Gui, view *gocui.View) error {
+	g.Cursor = false
+	return nil
+}
+
 // h-j-k-l defines cursor movements;
 //right now: only for ineditable views; editable views need different modes that will be set later.
 

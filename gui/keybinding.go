@@ -61,10 +61,22 @@ func CreateAllKeybinders(gui *Gui) []*models.KeyBinder {
 			Handler:  gui.HandleDataUpdate,
 		},
 		{
+			ViewName: "",
+			Key:      "tab",
+			Modifier: gocui.ModNone,
+			Handler:  gui.HandleViewLoop,
+		},
+		{
 			ViewName: "note",
 			Key:      "enter",
 			Modifier: gocui.ModNone,
 			Handler:  gui.HandleSendNote,
+		},
+		{
+			ViewName: "note",
+			Key:      "ct-space",
+			Modifier: gocui.ModNone,
+			Handler:  gui.HandleSwitchLine,
 		},
 		{
 			ViewName: "note-history",

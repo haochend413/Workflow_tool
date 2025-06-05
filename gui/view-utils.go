@@ -49,6 +49,23 @@ func ToggleWindowDisplay(w *models.Window, g *gocui.Gui) error {
 	return nil
 }
 
+// // loop over current views
+// func NextCurrentView(v *gocui, g *gocui.Gui) error {
+// 	switch w.Name {
+// 	case "note":
+// 		g.SetCurrentView("note-history")
+// 		return nil
+// 	case "note-history":
+// 		g.SetCurrentView("note-detail")
+// 		return nil
+// 	case "note-detail":
+// 		g.SetCurrentView("note")
+// 		return nil
+// 	default:
+// 		return nil
+// 	}
+// }
+
 // fetch the current content input of that view;
 func FetchContent(w *models.Window, g *gocui.Gui) string {
 	return strings.TrimSpace(w.View.Buffer())
